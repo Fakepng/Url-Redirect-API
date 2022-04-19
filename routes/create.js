@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
         console.error(err);
         return res.status(500).send("Internal server error");
     }
-    res.status(200).send("OK");
+    res.status(200).send("Visit your link: https://short.fakepng.com/" + link);
 });
 
 module.exports = router;
