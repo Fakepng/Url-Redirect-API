@@ -20,6 +20,10 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
+
 app.use('/create', require('./routes/create'));
 app.use('/remove', require('./routes/remove'));
 
