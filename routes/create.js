@@ -7,9 +7,10 @@ router.get("/", async (req, res) => {
     const name = req.query.name;
     const link = req.query.link;
     const password = req.query.password;
+    const Forbidden = ['create', 'remove', 'list'];
 
     if (!(name && link && password)) return res.status(400).send("Bad request");
-    if (name.toLowerCase() === 'create' || name.toLowerCase() === 'remove') return res.status(400).send("Forbidden name");
+    if (Forbidden.includes(name.toLowerCase())) return res.status(400).send("Forbidden name");
     if (password !== process.env.PASSWORD) return res.status(400).send("Wrong password");
 
     try {
