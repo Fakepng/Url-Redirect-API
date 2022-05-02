@@ -1,10 +1,10 @@
 {
   "name": "url-redirect-api",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Url Redirect API",
   "main": "index.js",
   "scripts": {
-    "nodemon": "nodemon index.js"
+    "dev": "nodemon index.js"
     
   },
   "repository": {
