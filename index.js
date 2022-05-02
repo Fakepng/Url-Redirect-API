@@ -26,6 +26,7 @@ app.get('/', (req, res) => {
 
 app.use('/create', require('./routes/create'));
 app.use('/remove', require('./routes/remove'));
+app.use('/list', require('./routes/list'));
 
 app.get('/:name', async (req, res) => {
     const name = req.params.name;
