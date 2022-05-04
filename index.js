@@ -31,7 +31,7 @@ app.use('/list', require('./routes/list'));
 app.get('/:name', async (req, res) => {
     const name = req.params.name;
     const link = (await DB.findOne({ name }))?.link;
-    console.log(link)
+    await DB.updateOne({ name }, { $inc: { visited: 1 } });
     if (!link) return res.status(404).send("Not found");
     res.redirect(link);
 });
