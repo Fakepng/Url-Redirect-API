@@ -6,8 +6,7 @@ const DB = require('../models/shortlink');
 router.get("/", async (req, res) => {
     const password = req.query.password;
 
-    if (!password) return res.status(400).send("Bad request");
-    if (password !== process.env.PASSWORD) return res.status(400).send("Wrong password");
+    if (password !== process.env.PASSWORD) return res.status(401).send("Wrong password");
 
     try {
         const links = await DB.find();

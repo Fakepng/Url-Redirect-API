@@ -10,10 +10,10 @@ router.get("/", async (req, res) => {
 
     if (!(name && password)) return res.status(400).send("Bad request");
     if (Forbidden.includes(name.toLowerCase())) return res.status(400).send("Forbidden name");
-    if (password !== process.env.PASSWORD) return res.status(400).send("Wrong password");
+    if (password !== process.env.PASSWORD) return res.status(401).send("Wrong password");
 
     try {
-        if (!(await DB.findOne({ name }))) return res.status(400).send("Name does not exist");
+        if (!(await DB.findOne({ name }))) return res.status(404).send("Name does not exist");
         
         await DB.deleteOne({ name })
 

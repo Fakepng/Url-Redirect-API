@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
 
     if (!(name && link && password)) return res.status(400).send("Bad request");
     if (Forbidden.includes(name.toLowerCase())) return res.status(400).send("Forbidden name");
-    if (password !== process.env.PASSWORD) return res.status(400).send("Wrong password");
+    if (password !== process.env.PASSWORD) return res.status(401).send("Wrong password");
 
     try {
         if (await DB.findOne({ name })) return res.status(400).send("Name already exists");
@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
         console.error(err);
         return res.status(500).send("Internal server error");
     }
-    res.status(200).send("Visit your link: https://short.fakepng.com/" + name);
+    res.status(201).send("Visit your link: https://short.fakepng.com/" + name);
 });
 
 module.exports = router;
