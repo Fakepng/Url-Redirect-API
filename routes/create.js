@@ -3,6 +3,8 @@ const router = express.Router();
 
 const DB = require('../models/shortlink');
 
+const ADDRESS = process.env.ADDRESS;
+
 router.get("/", async (req, res) => {
     const name = req.query.name;
     const link = req.query.link;
@@ -22,7 +24,7 @@ router.get("/", async (req, res) => {
         console.error(err);
         return res.status(500).send("Internal server error");
     }
-    res.status(201).send("Visit your link: https://short.fakepng.com/" + name);
+    res.status(201).send(`Visit your link at: ${ADDRESS}${name}`);
 });
 
 module.exports = router;
