@@ -1,31 +1,22 @@
 const express = require('express');
 const router = express.Router();
 
+const stringToTime = require('@fakepng/string-to-time');
+
 const DB = require('../models/shortlink');
 
 const ADDRESS = process.env.ADDRESS;
 
-const textToDate = (time) => {
-    const Year = parseInt(time.substring(0, time.indexOf('Y'))) || 0;
-    const Month = time.indexOf('M') !== -1 ? parseInt(time.substring(time.indexOf('Y') + 1, time.indexOf('M'))) : 0;
-    const Week = time.indexOf('W') !== -1 ? parseInt(time.substring(time.indexOf('M') + 1, time.indexOf('W'))) : 0;
-    const Day = time.indexOf('D') !== -1 ? parseInt(time.substring(time.indexOf('W') + 1, time.indexOf('D'))) : 0;
-    const Hour = time.indexOf('h') !== -1 ? parseInt(time.substring(time.indexOf('D') + 1, time.indexOf('h'))) : 0;
-    const Minute = time.indexOf('m') !== -1 ? parseInt(time.substring(time.indexOf('h') + 1, time.indexOf('m'))) : 0;
-    const Second = time.indexOf('s') !== -1 ? parseInt(time.substring(time.indexOf('m') + 1, time.indexOf('s'))) : 0;
-    return {Year, Month, Week, Day, Hour, Minute, Second};
-}
-
 const deathLine = (time) => {
-    const {Year, Month, Week, Day, Hour, Minute, Second} = time;
+    const {years, months, weeks, days, hours, minutes, seconds} = time;
     let date = new Date();
-    date.setFullYear(date.getFullYear() + Year);
-    date.setMonth(date.getMonth() + Month);
-    date.setDate(date.getDate() + (Week * 7));
-    date.setDate(date.getDate() + Day);
-    date.setHours(date.getHours() + Hour);
-    date.setMinutes(date.getMinutes() + Minute);
-    date.setSeconds(date.getSeconds() + Second);
+    date.setFullYear(date.getFullYear() + years);
+    date.setMonth(date.getMonth() + months);
+    date.setDate(date.getDate() + (weeks * 7));
+    date.setDate(date.getDate() + days);
+    date.setHours(date.getHours() + hours);
+    date.setMinutes(date.getMinutes() + minutes);
+    date.setSeconds(date.getSeconds() + seconds);
     return date;   
 }
 
@@ -45,7 +36,7 @@ router.get("/", async (req, res) => {
 
         const useDeathLine = time ? true : false;
         
-        await DB.create({ name, link, useDeathLine, deathLine: deathLine(textToDate(time)) });
+        await DB.create({ name, link, useDeathLine, deathLine: deathLine(stringToTime(time)) });
 
     } catch (err) {
         console.error(err);
